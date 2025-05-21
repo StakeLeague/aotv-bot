@@ -17,7 +17,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Quart(__name__)
+# Configuration de Quart
+app.config['PROVIDE_AUTOMATIC_OPTIONS'] = True
 load_dotenv()
+
+# Configuration du port pour Render
+port = int(os.environ.get("PORT", 5050))
 
 # Fichiers de stockage
 MESSAGES_FILE = 'saved_messages.json'
@@ -239,4 +244,4 @@ async def send_channel_message():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5050, debug=True)
+    app.run(host="127.0.0.1", port=port, debug=True)

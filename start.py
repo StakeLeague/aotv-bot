@@ -28,7 +28,9 @@ quart_logger.setLevel(logging.WARNING)
 async def run_dashboard():
     try:
         config = Config()
-        config.bind = ["127.0.0.1:5050"]
+        # Utiliser le port fourni par Render
+        port = int(os.environ.get("PORT", 5050))
+        config.bind = [f"0.0.0.0:{port}"]
         config.use_reloader = False
         await serve(app, config)
     except Exception as e:
