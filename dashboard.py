@@ -19,7 +19,6 @@ logger = logging.getLogger(__name__)
 # Configuration de Quart
 app = Quart(__name__)
 app.config.update(
-    PROVIDE_AUTOMATIC_OPTIONS=True,
     SECRET_KEY=os.urandom(24),
     TEMPLATES_AUTO_RELOAD=True
 )
