@@ -36,12 +36,6 @@ async def run_dashboard():
     except Exception as e:
         logger.error("Erreur lors du demarrage du dashboard : " + str(e))
 
-async def open_browser():
-    import webbrowser
-    await asyncio.sleep(2)  # Attendre que le serveur demarre
-    webbrowser.open('http://127.0.0.1:5050')
-    logger.info("Ouverture du dashboard dans votre navigateur...")
-
 async def main():
     logger.info("""
     =================================
@@ -61,9 +55,6 @@ async def main():
     # Démarrer le dashboard
     dashboard_task = asyncio.create_task(run_dashboard())
 
-    # Ouvrir le navigateur
-    browser_task = asyncio.create_task(open_browser())
-
     logger.info("""
     Tous les composants sont en cours de demarrage...
     
@@ -72,7 +63,7 @@ async def main():
 
     try:
         # Attendre que toutes les tâches soient terminées
-        await asyncio.gather(bot_task, dashboard_task, browser_task)
+        await asyncio.gather(bot_task, dashboard_task)
     except KeyboardInterrupt:
         logger.info("Arret de tous les composants...")
         sys.exit(0)

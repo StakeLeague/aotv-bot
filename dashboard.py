@@ -16,9 +16,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-app = Quart(__name__)
 # Configuration de Quart
-app.config['PROVIDE_AUTOMATIC_OPTIONS'] = True
+app = Quart(__name__)
+app.config.update(
+    PROVIDE_AUTOMATIC_OPTIONS=True,
+    SECRET_KEY=os.urandom(24),
+    TEMPLATES_AUTO_RELOAD=True
+)
+
 load_dotenv()
 
 # Configuration du port pour Render
