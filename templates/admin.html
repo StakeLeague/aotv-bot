@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOTV SPORTS - Administration</title>
+    <style>
+        :root {
+            --bg-color: #181c24;
+            --text-color: #f5f5f5;
+            --container-bg: #23283a;
+            --section-bg: #23283a;
+            --border-color: #2d3142;
+            --primary-color: #4f8cff;
+            --primary-hover: #2563eb;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --success-bg: #1e4620;
+            --success-color: #d4edda;
+            --error-bg: #462020;
+            --error-color: #f8d7da;
+            --input-bg: #23283a;
+            --input-text: #f5f5f5;
+            --input-border: #2d3142;
+            --shadow: 0 4px 24px rgba(0,0,0,0.18);
+            --radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #181c24;
+            --text-color: #f5f5f5;
+            --container-bg: #23283a;
+            --section-bg: #23283a;
+            --border-color: #2d3142;
+            --primary-color: #4f8cff;
+            --primary-hover: #2563eb;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --success-bg: #1e4620;
+            --success-color: #d4edda;
+            --error-bg: #462020;
+            --error-color: #f8d7da;
+            --input-bg: #23283a;
+            --input-text: #f5f5f5;
+            --input-border: #2d3142;
+            --shadow: 0 4px 24px rgba(0,0,0,0.18);
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 32px auto 32px auto;
+            background-color: var(--container-bg);
+            padding: 36px 24px 32px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-switch {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: background 0.2s, transform 0.1s;
+            z-index: 10;
+        }
+
+        .theme-switch:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .theme-switch:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.04);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 36px;
+            font-size: 2.2em;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25em;
+            font-weight: 600;
+            background: rgba(79,140,255,0.08);
+            color: var(--primary-color);
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+        }
+
+        .platform-section, .message-section, .history-section, .matchs-section {
+            margin-bottom: 36px;
+            padding: 28px 18px 22px 18px;
+            background: var(--section-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .platform-section h3, .message-section h3, .history-section h3, .matchs-section h3 {
+            background: rgba(0,0,0,0.04);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .discord-section {
+            border-left: 6px solid #7289da;
+        }
+
+        .discord-subsection {
+            margin-bottom: 20px;
+            padding: 18px 14px;
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border: 1.5px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .discord-subsection {
+            background-color: #23283a;
+            border-color: #2d3142;
+            color: var(--text-color);
+        }
+
+        .discord-subsection:first-child {
+            margin-top: 0;
+        }
+
+        .discord-subsection h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .role {
+            background: linear-gradient(90deg, #23272a 60%, #36393f 100%);
+            color: #fff;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            border: 1.5px solid #444;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+            cursor: pointer;
+            font-size: 1em;
+            animation: fadeIn 0.3s;
+        }
+
+        .role:focus-within {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .role:hover {
+            transform: scale(1.07);
+            box-shadow: 0 4px 16px rgba(114,137,218,0.18);
+            background: linear-gradient(90deg, #36393f 60%, #23272a 100%);
+        }
+
+        .role input[type="checkbox"] {
+            margin: 0 4px 0 0;
+            accent-color: #7289da;
+        }
+
+        .role label {
+            margin: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: inherit;
+        }
+
+        .role-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        }
+
+        .message-section {
+            margin-top: 30px;
+        }
+
+        .message-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0;
+            font-family: inherit;
+            resize: vertical;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1.1em;
+        }
+
+        .reactions-section {
+            margin-bottom: 20px;
+        }
+
+        .reactions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .reaction {
+            background: linear-gradient(90deg, #23272a 60%, #36393f 100%);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            border: 1.5px solid #444;
+            margin-bottom: 4px;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .reaction input[type="text"] {
+            width: 90px;
+            padding: 4px 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            background: var(--input-bg);
+            color: var(--input-text);
+            margin-right: 6px;
+        }
+
+        .reaction-remove {
+            background: var(--danger-color);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: 4px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .reaction-remove:focus {
+            outline: 2px solid var(--danger-color);
+        }
+
+        .reaction-remove:hover {
+            background: var(--danger-hover);
+            transform: scale(1.15);
+        }
+
+        .add-reaction-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-left: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .add-reaction-btn:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .add-reaction-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.12);
+        }
+
+        .platforms-section {
+            margin-bottom: 20px;
+        }
+
+        .platforms-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .platform-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .platform-option input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .platform-option label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .target-options {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .target-options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0b5ed7 60%, #0d6efd 100%);
+            transform: scale(1.04);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .history-container, .matchs-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .history-item, .match-item {
+            background: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 18px 16px;
+            border: 1.5px solid var(--border-color);
+            transition: box-shadow 0.2s, transform 0.15s;
+            animation: fadeIn 0.3s;
+        }
+
+        .history-item:focus-within, .match-item:focus-within {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .history-item:hover, .match-item:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+            transform: scale(1.02);
+        }
+
+        .history-item .timestamp {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .history-item .message {
+            margin-bottom: 10px;
+        }
+
+        .history-item .details {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .history-item .stats {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .match-item .match-info {
+            flex-grow: 1;
+        }
+
+        .match-item .match-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .match-item .match-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .match-item .match-link:hover {
+            text-decoration: underline;
+        }
+
+        .match-item .delete-match {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .match-item .delete-match:focus {
+            outline: 2px solid var(--danger-color);
+        }
+
+        .match-item .delete-match:hover {
+            background-color: var(--danger-hover);
+            transform: scale(1.08);
+        }
+
+        .add-match-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .add-match-form input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1em;
+        }
+
+        .add-match-form button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .add-match-form button:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .add-match-form button:hover {
+            background: var(--primary-hover);
+            transform: scale(1.08);
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            background-color: var(--error-bg);
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .no-roles {
+            color: var(--text-color);
+            padding: 10px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .container {
+            background-color: #232323;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 8px 2vw;
+            }
+            .platform-section, .message-section, .history-section, .matchs-section {
+                padding: 10px 2vw;
+            }
+            .roles-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .role {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .history-item, .match-item {
+                padding: 10px 6px;
+            }
+        }
+
+        /* Style pour les suggestions d'emojis */
+        .emoji-suggestion {
+            font-size: 1.5em;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 4px 8px;
+            transition: background 0.15s, transform 0.1s;
+            user-select: none;
+        }
+        .emoji-suggestion:focus {
+            outline: 2px solid var(--primary-color);
+        }
+        .emoji-suggestion:hover {
+            background: #e9ecef;
+            transform: scale(1.18);
+        }
+
+        /* Style pour les boutons de messages préfaits */
+        .prefilled-messages {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .prefilled-btn {
+            background: #e9ecef;
+            color: #23272a;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 18px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, transform 0.1s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        }
+        .prefilled-btn:focus {
+            outline: 2px solid var(--primary-color);
+        }
+        .prefilled-btn:hover {
+            background: var(--primary-color);
+            color: #fff;
+            transform: scale(1.08);
+        }
+
+        /* Style pour le bouton de suppression de l'historique */
+        .delete-history-btn {
+            background: var(--danger-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            float: right;
+            margin-top: 8px;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .delete-history-btn:focus {
+            outline: 2px solid var(--danger-color);
+        }
+        .delete-history-btn:hover {
+            background: var(--danger-hover);
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-switch" onclick="toggleTheme()">🌙 Mode Sombre</button>
+    <div class="container">
+        <h1>🤖 AOTV SPORTS - Administration</h1>
+
+        <!-- Section Discord -->
+        <div class="platform-section discord-section">
+            <h3>🎮 Discord</h3>
+            
+            <div class="discord-subsection">
+                <h4>Rôles cibles</h4>
+                <div class="roles-container" id="rolesContainer">
+                    <!-- Les rôles seront ajoutés ici dynamiquement -->
+                </div>
+                <button onclick="addRole()" style="margin-top: 10px;">Ajouter un rôle</button>
+            </div>
+        </div>
+
+        <!-- Section Message -->
+        <div class="message-section">
+            <h3>📝 Message</h3>
+            <div class="prefilled-messages" style="margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px;">
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('Bonjour à tous ! Voici une annonce importante pour le serveur.')">Annonce</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('N\'oubliez pas de lire le règlement et de respecter les autres membres.')">Rappel</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('Bienvenue sur le serveur ! Si tu as des questions, n\'hésite pas à demander.')">Bienvenue</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('Le match commence bientôt ! Préparez-vous à soutenir votre équipe favorite !')">Match</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('Merci à tous pour votre participation ! 🎉')">Remerciement</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('🏁 **FIN DU MATCH !** ⚽️✅\n\n👏 **Quel match intense !** 🔥  \n💰 **As-tu parié et ça s\'est passé comme prévu ?**  \n👉 **Réagis à ce message avec un emoji si t\'as gagné ou perdu !** 💸😅  \n\n📢 **Les résultats des tirages au sort sont annoncés dans le salon <ID#> !** 🎉💥  \n\n🎯 **Merci à tous pour votre participation et rendez-vous pour le prochain match !** 🚀🔥  ')">Fin de match</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('⏰ **MI-TEMPS !** ⚽️🛑\n\n🎁 **On fait gagner X fois XX€ dans le salon <ID#> !** 💸💥  \n📢 **Résultats à la fin du match !**\n\n🎯 **Restez connectés et bonne chance à tous !** 🍀🔥  ')">Mi-temps</button>
+                <button type="button" class="prefilled-btn" onclick="setPrefilledMessage('🎉 **Le match a commencé !** ⚽️🔥\n\n**📅 Match :** **XXX 🆚 XXX**  \n**⏰ Coup d\'envoi :** **Maintenant !**  \n\n**📺 Liens de diffusion :**  \n🔴 **Lien 1**  \n🔵 **Lien 2**  \n🟢 **Lien 3**  \n\n**🏆 Que le meilleur gagne !** 💪💥  ')">Début du match</button>
+            </div>
+            
+            <div class="reactions-section">
+                <h4>Réactions</h4>
+                <div class="reactions-container" id="reactionsContainer">
+                    <!-- Les réactions seront ajoutées ici dynamiquement -->
+                </div>
+                <button class="add-reaction-btn" onclick="addReaction()" title="Ajouter une réaction">+</button>
+                <div class="emoji-suggestions" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('👍')">👍</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('😂')">😂</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('😍')">😍</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('🎉')">🎉</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('😢')">😢</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('😡')">😡</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('🙏')">🙏</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('👀')">👀</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('🔥')">🔥</span>
+                    <span class="emoji-suggestion" onclick="addEmojiReaction('🥳')">🥳</span>
+                </div>
+            </div>
+
+            <textarea id="messageInput" placeholder="Entrez votre message ici..."></textarea>
+            <button onclick="sendMessage()" id="sendButton">Envoyer</button>
+        </div>
+
+        <!-- Section Message Salon Discord -->
+        <div class="message-section">
+            <div class="section-title">💬 Envoyer un message dans un salon Discord</div>
+            <div style="margin-bottom: 12px;">
+                <label for="channelSelect" style="font-weight:500;">Salon :</label>
+                <select id="channelSelect" style="margin-left:10px; padding:8px 12px; border-radius:8px; border:1.5px solid var(--border-color); background:var(--input-bg); color:var(--input-text); font-size:1em;"></select>
+            </div>
+            <div class="prefilled-messages" style="margin-bottom: 12px;">
+                <button type="button" class="prefilled-btn" onclick="setChannelPrefilledMessage('📢 Annonce importante à tous les membres du serveur !')">Annonce</button>
+                <button type="button" class="prefilled-btn" onclick="setChannelPrefilledMessage('ℹ️ Petite info : le serveur sera en maintenance ce soir à 22h.')">Info</button>
+                <button type="button" class="prefilled-btn" onclick="setChannelPrefilledMessage('🔔 N\'oubliez pas de lire le règlement et de respecter les autres membres !')">Rappel</button>
+                <button type="button" class="prefilled-btn" onclick="setChannelPrefilledMessage('🎉 Bienvenue à tous les nouveaux membres !')">Bienvenue</button>
+                <button type="button" class="prefilled-btn" onclick="setChannelPrefilledMessage('Merci à tous pour votre participation ! 🎊')">Remerciement</button>
+            </div>
+            <textarea id="channelMessageInput" placeholder="Entrez votre message à envoyer dans le salon..."></textarea>
+            <div style="margin-top: 8px; font-size: 0.9em; color: var(--text-color);">
+                Pour mentionner un utilisateur, utilisez @nom_utilisateur dans votre message.
+            </div>
+            <button id="sendChannelMessageBtn" onclick="sendChannelMessage()" style="margin-top:10px;">Envoyer dans le salon</button>
+            <div id="channelMessageStatus" class="status" style="margin-top:10px;"></div>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <!-- Section Historique -->
+        <div class="history-section">
+            <h3>📜 Historique des messages</h3>
+            <div class="history-container" id="historyContainer">
+                <!-- L'historique sera ajouté ici dynamiquement -->
+            </div>
+        </div>
+
+        <!-- Section Matchs -->
+        <div class="matchs-section">
+            <h3>🎮 Matchs</h3>
+            <div class="matchs-container" id="matchsContainer">
+                <!-- Les matchs seront ajoutés ici dynamiquement -->
+            </div>
+            <div class="add-match-form">
+                <input type="text" id="matchTitle" placeholder="Titre du match">
+                <input type="text" id="matchLink" placeholder="Lien du match">
+                <button onclick="addMatch()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour gérer le thème
+        function toggleTheme() {
+            const body = document.body;
+            const themeSwitch = document.querySelector('.theme-switch');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                themeSwitch.textContent = '🌙 Mode Sombre';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeSwitch.textContent = '☀️ Mode Clair';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Charger le thème sauvegardé
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.querySelector('.theme-switch').textContent = '☀️ Mode Clair';
+        }
+
+        // Fonction pour charger les rôles Discord
+        async function loadRoles() {
+            try {
+                const response = await fetch('/discord-roles');
+                if (!response.ok) {
+                    const data = await response.json();
+                    if (response.status === 503) {
+                        // Le bot n'est pas encore prêt, réessayer dans 2 secondes
+                        setTimeout(loadRoles, 2000);
+                        return;
+                    }
+                    throw new Error(data.error || 'Erreur lors du chargement des rôles');
+                }
+                
+                const roles = await response.json();
+                const container = document.getElementById('rolesContainer');
+                container.innerHTML = '';
+                
+                if (roles.length === 0) {
+                    container.innerHTML = '<div class="no-roles">Aucun rôle trouvé</div>';
+                    return;
+                }
+                
+                roles.forEach((role) => {
+                    const div = document.createElement('div');
+                    div.className = 'role';
+                    div.innerHTML = `
+                        <input type="checkbox" id="role_${role.id}" value="${role.id}">
+                        <label for="role_${role.id}">
+                            <span class="role-color" style="background-color: ${role.color}"></span>
+                            ${role.name}
+                        </label>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Erreur lors du chargement des rôles:', error);
+                const container = document.getElementById('rolesContainer');
+                container.innerHTML = `<div class="error-message">Erreur: ${error.message}</div>`;
+                // Réessayer dans 5 secondes en cas d'erreur
+                setTimeout(loadRoles, 5000);
+            }
+        }
+
+        // Fonction pour ajouter un rôle
+        async function addRole() {
+            const name = prompt('Nom du rôle:');
+            if (!name) return;
+
+            const id = prompt('ID du rôle:');
+            if (!id) return;
+
+            try {
+                const response = await fetch('/roles', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, id })
+                });
+
+                if (response.ok) {
+                    loadRoles();
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Erreur lors de l\'ajout du rôle', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur lors de l\'ajout du rôle: ' + error, 'error');
+            }
+        }
+
+        // Fonction pour supprimer un rôle
+        async function deleteRole(index) {
+            if (!confirm('Voulez-vous vraiment supprimer ce rôle ?')) return;
+
+            try {
+                const response = await fetch(`/roles/${index}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadRoles();
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Erreur lors de la suppression du rôle', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur lors de la suppression du rôle: ' + error, 'error');
+            }
+        }
+
+        // Charger les rôles au démarrage
+        loadRoles();
+
+        // Recharger les rôles toutes les 30 secondes
+        setInterval(loadRoles, 30000);
+
+        // Fonction pour ajouter une réaction
+        function addReaction() {
+            const container = document.getElementById('reactionsContainer');
+            const div = document.createElement('div');
+            div.className = 'reaction';
+            div.innerHTML = `
+                <input type="text" placeholder="Emoji ou texte (ex: 👍 ou 🎉)" maxlength="10">
+                <button class="reaction-remove" onclick="this.parentElement.remove()" title="Supprimer">×</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Ajout rapide d'une réaction via un emoji populaire
+        function addEmojiReaction(emoji) {
+            const container = document.getElementById('reactionsContainer');
+            const div = document.createElement('div');
+            div.className = 'reaction';
+            div.innerHTML = `
+                <input type="text" value="${emoji}" maxlength="10">
+                <button class="reaction-remove" onclick="this.parentElement.remove()" title="Supprimer">×</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Fonction pour envoyer le message
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (!message) {
+                showStatus('Veuillez entrer un message', 'error');
+                return;
+            }
+
+            const roleIds = [];
+            document.querySelectorAll('.role input[type="checkbox"]:checked').forEach(checkbox => {
+                roleIds.push(checkbox.value);
+            });
+
+            if (roleIds.length === 0) {
+                showStatus('Veuillez sélectionner au moins un rôle pour Discord', 'error');
+                return;
+            }
+
+            const reactions = [];
+            document.querySelectorAll('.reaction input[type="text"]').forEach(input => {
+                if (input.value) {
+                    reactions.push(input.value);
+                }
+            });
+
+            const button = document.getElementById('sendButton');
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message,
+                        roleIds,
+                        reactions,
+                        platforms: ["discord"] // Plateforme fixée à Discord
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    showStatus(data.error, 'error');
+                } else {
+                    showStatus(`Message envoyé à ${data.sent_count} destinataires`, 'success');
+                    document.getElementById('messageInput').value = '';
+                    document.getElementById('reactionsContainer').innerHTML = '';
+                }
+            } catch (error) {
+                showStatus('Erreur lors de l\'envoi du message: ' + error, 'error');
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        // Fonction pour afficher le statut
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 5000);
+        }
+
+        // Fonction pour charger l'historique
+        async function loadHistory() {
+            try {
+                const response = await fetch('/messages-history');
+                const history = await response.json();
+                const container = document.getElementById('historyContainer');
+                container.innerHTML = '';
+                
+                history.reverse().forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `
+                        <div class="timestamp">${new Date(item.timestamp).toLocaleString()}</div>
+                        <div class="message">${item.message}</div>
+                        <div class="details">
+                            Envoyé à ${item.sent_count} destinataires
+                            ${item.reactions.length ? `avec ${item.reactions.length} réactions` : ''}
+                        </div>
+                        <div class="stats">
+                            <div>Total des réactions: ${item.stats.total_reactions}</div>
+                            <div>Réactions par type: ${Object.entries(item.stats.reactions_by_type)
+                                .map(([type, count]) => `${type}: ${count}`)
+                                .join(', ')}</div>
+                        </div>
+                        <button class="delete-history-btn" onclick="deleteHistoryMessage(${history.indexOf(item)})" title="Supprimer ce message">🗑️</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Erreur lors du chargement de l\'historique:', error);
+            }
+        }
+
+        // Charger l'historique au démarrage
+        loadHistory();
+
+        // Recharger l'historique toutes les 30 secondes
+        setInterval(loadHistory, 30000);
+
+        // Fonction pour charger les matchs
+        async function loadMatchs() {
+            try {
+                const response = await fetch('/matchs');
+                const matchs = await response.json();
+                const container = document.getElementById('matchsContainer');
+                container.innerHTML = '';
+                
+                matchs.forEach((match, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'match-item';
+                    div.innerHTML = `
+                        <div class="match-info">
+                            <div class="match-title">${match.titre}</div>
+                            <a href="${match.lien}" target="_blank" class="match-link">${match.lien}</a>
+                        </div>
+                        <button class="delete-match" onclick="deleteMatch(${index})">Supprimer</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Erreur lors du chargement des matchs:', error);
+            }
+        }
+
+        // Fonction pour ajouter un match
+        async function addMatch() {
+            const titre = document.getElementById('matchTitle').value;
+            const lien = document.getElementById('matchLink').value;
+
+            if (!titre || !lien) {
+                showStatus('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/matchs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ titre, lien })
+                });
+
+                if (response.ok) {
+                    document.getElementById('matchTitle').value = '';
+                    document.getElementById('matchLink').value = '';
+                    loadMatchs();
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Erreur lors de l\'ajout du match', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur lors de l\'ajout du match: ' + error, 'error');
+            }
+        }
+
+        // Fonction pour supprimer un match
+        async function deleteMatch(index) {
+            try {
+                const response = await fetch(`/matchs/${index}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadMatchs();
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Erreur lors de la suppression du match', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur lors de la suppression du match: ' + error, 'error');
+            }
+        }
+
+        // Charger les matchs au démarrage
+        loadMatchs();
+
+        // Fonction pour insérer un message préfait
+        function setPrefilledMessage(msg) {
+            document.getElementById('messageInput').value = msg;
+        }
+
+        // Fonction pour supprimer un message de l'historique
+        async function deleteHistoryMessage(index) {
+            if (!confirm('Voulez-vous vraiment supprimer ce message de l\'historique ?')) return;
+            try {
+                const response = await fetch(`/messages-history/${index}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    loadHistory();
+                } else {
+                    const data = await response.json();
+                    showStatus(data.error || 'Erreur lors de la suppression du message', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur lors de la suppression du message: ' + error, 'error');
+            }
+        }
+
+        // Fonction pour charger la liste des salons Discord
+        async function loadChannels() {
+            const select = document.getElementById('channelSelect');
+            select.innerHTML = '<option>Chargement...</option>';
+            try {
+                const response = await fetch('/discord-channels');
+                if (!response.ok) {
+                    const data = await response.json();
+                    console.error('Erreur API /discord-channels:', data.error);
+                    select.innerHTML = `<option disabled>Erreur : ${data.error || 'Impossible de charger les salons'}</option>`;
+                    return;
+                }
+                const channels = await response.json();
+                select.innerHTML = '';
+                if (channels.length === 0) {
+                    select.innerHTML = '<option disabled>Aucun salon trouvé</option>';
+                } else {
+                    channels.forEach(channel => {
+                        const opt = document.createElement('option');
+                        opt.value = channel.id;
+                        opt.textContent = `#${channel.name}`;
+                        select.appendChild(opt);
+                    });
+                }
+            } catch (error) {
+                console.error('Erreur JS lors du chargement des salons Discord:', error);
+                select.innerHTML = `<option disabled>Erreur JS : ${error.message || error}</option>`;
+            }
+        }
+
+        // Fonction pour envoyer un message dans un salon
+        async function sendChannelMessage() {
+            const select = document.getElementById('channelSelect');
+            const channelId = select.value;
+            const message = document.getElementById('channelMessageInput').value;
+            const status = document.getElementById('channelMessageStatus');
+            status.style.display = 'none';
+            if (!channelId || !message) {
+                status.textContent = 'Veuillez sélectionner un salon et écrire un message.';
+                status.className = 'status error';
+                status.style.display = 'block';
+                return;
+            }
+            document.getElementById('sendChannelMessageBtn').disabled = true;
+            try {
+                const response = await fetch('/send-channel-message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channel_id: channelId, message })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    status.textContent = 'Message envoyé avec succès !';
+                    status.className = 'status success';
+                    document.getElementById('channelMessageInput').value = '';
+                } else {
+                    status.textContent = data.error || 'Erreur lors de l\'envoi du message.';
+                    status.className = 'status error';
+                }
+            } catch (error) {
+                status.textContent = 'Erreur lors de l\'envoi du message : ' + error;
+                status.className = 'status error';
+            } finally {
+                status.style.display = 'block';
+                document.getElementById('sendChannelMessageBtn').disabled = false;
+            }
+        }
+
+        // Fonction pour insérer un message pré-enregistré dans le textarea salon
+        function setChannelPrefilledMessage(msg) {
+            document.getElementById('channelMessageInput').value = msg;
+        }
+
+        // Charger les salons au démarrage
+        loadChannels();
+    </script>
+</body>
+</html>
